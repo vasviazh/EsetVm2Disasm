@@ -62,5 +62,6 @@ int main(int argc, char* argv[])
         assert(bitStream.eof());
     }
 
+    std::cout << "BitStream tests SUCCESS";
     return 0;
 }

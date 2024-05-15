@@ -7,6 +7,7 @@
 #include <sstream>
 #include <cstring>
 #include <iomanip>
+#include <chrono>
 #include "bit_istream.hpp"
 #include "evm_parser.hpp"
 
@@ -21,16 +22,18 @@ int main(int argc, char* argv[])
 {
     std::string inputFilePath;
 
-    if (argc != 2)
+    std::stringstream outAsmCodeStream;
+
+    std::string outFileName;
+    if (argc == 2)
     {
-        std::cout << "Usage: eset_vm_disasm in_file.evm" << std::endl;
-        //inputFilePath = "task/samples/precompiled/crc.evm";
-        inputFilePath = "task/samples/precompiled/memory.evm";
-        //inputFilePath = "task/samples/precompiled/fibonacci_loop.evm";
-        //return 0;
+        inputFilePath = argv[1];
     }
     else
-        inputFilePath = argv[1];
+    {
+        std::cout << "Usage: eset_vm_disasm in_file.evm" << std::endl;
+        return 0;
+    }
 
     // open input file
     std::ifstream inputFile(inputFilePath, std::ios::binary);
@@ -51,8 +54,6 @@ int main(int argc, char* argv[])
     }
 
     //print header
-    //std::stringstream &outAsmCodeStream;
-    std::ostream &outAsmCodeStream = std::cout;
     outAsmCodeStream << ".dataSize " << header.dataSize << std::endl;
 
     // Read code buffer
@@ -64,6 +65,8 @@ int main(int argc, char* argv[])
         inputFile.close();
         exit(1);//error
     }
+
+    auto time_begin = std::chrono::steady_clock::now();
 
     /////////////////////////////////////////
     // read initial data buffer
@@ -102,5 +105,11 @@ int main(int argc, char* argv[])
         exit((int)codeParser.getErrorStatus());
     }
 
+    auto time_end = std::chrono::steady_clock::now();
+    
+    auto elapsed_ms = std::chrono::duration_cast<std::chrono::nanoseconds>(time_end - time_begin);
+    std::cerr << "Parse time elapsed: " << elapsed_ms.count() << std::endl;
+
+    std::cout << outAsmCodeStream.str();
     return 0;
 }

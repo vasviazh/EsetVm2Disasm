@@ -2,9 +2,9 @@
 #include <limits>
 
 BitStream::BitStream(const std::uint8_t *buf, size_t bufSizeBytes)
-    : m_buf(buf)
+    : m_status(Status::STATUS_NO_ERROR)
+    , m_buf(buf)
     , m_bufSizeBytes(bufSizeBytes)
-    , m_status(STATUS_NO_ERROR)
     {
     }
 

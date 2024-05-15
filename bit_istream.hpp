@@ -20,7 +20,7 @@ public:
         //check for end of buffer
         if (m_byteOffet + (m_bitOffset + NUM_BITS - 1) / 8 >= m_bufSizeBytes)
         {
-            ((int&)m_status) |= STATUS_EOF;
+            m_status = Status::STATUS_EOF;
             return 0; // out of buffer
         }
 
@@ -55,7 +55,7 @@ public:
         //check for end of buffer
         if (m_byteOffet + sizeof(T) + (m_bitOffset+7) / 8 > m_bufSizeBytes)
         {
-            ((int&)m_status) |= STATUS_EOF;
+            m_status = Status::STATUS_EOF;
             return 0; // out of buffer
         }
 
@@ -80,12 +80,12 @@ public:
     {
         m_bitOffset = 0;
         m_byteOffet = 0;
-        m_status = STATUS_NO_ERROR;
+        m_status = Status::STATUS_NO_ERROR;
     }
 
-    bool eof() { return m_status & STATUS_EOF; }
+    bool eof() { return m_status == Status::STATUS_EOF; }
 
-    enum Status
+    enum class Status
     {
         STATUS_NO_ERROR = 0,
         STATUS_EOF = 1

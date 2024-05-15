@@ -26,7 +26,7 @@ struct DisasmInstruct
 
 typedef std::vector<InstrCode> InstrCodesList;
 
-const InstrCodesList instrCodes = {
+static const InstrCodesList instrCodes = {
 
     {"mov", 0b000, 3, "RR"},       // 000 mov r1, r2
     {"loadConst", 0b001, 3, "CR"}, // 001 loadConst const, r1
@@ -59,15 +59,15 @@ const InstrCodesList instrCodes = {
     {"unlock", 0b1111, 4, "R"}, // 1111 unlock index
 };
 
-const std::vector<std::string> dataAccessTypes = { "byte", "word", "dword", "qword" };
+static const std::vector<std::string> dataAccessTypes = { "byte", "word", "dword", "qword" };
 
-constexpr uint8_t valueTypeSize = 2U;
-constexpr uint8_t addrSize = 32U;
-constexpr uint8_t registerAddrSize = 4U;
-constexpr uint8_t constValueSize = 64U;
-constexpr uint8_t minCmdBits = 3;
-constexpr uint8_t maxCmdBits = 6;
-const std::string codeLablePrefix("addr");
+static constexpr uint8_t valueTypeSize = 2U;
+static constexpr uint8_t addrSize = 32U;
+static constexpr uint8_t registerAddrSize = 4U;
+static constexpr uint8_t constValueSize = 64U;
+static constexpr uint8_t minCmdBits = 3;
+static constexpr uint8_t maxCmdBits = 6;
+static const std::string codeLablePrefix("addr");
 
 EvmParser::EvmParser(BitStream * bitStream)
     : m_pBitStream(bitStream)
